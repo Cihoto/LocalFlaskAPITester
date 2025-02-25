@@ -9,17 +9,18 @@
     <p id="ip"></p>
 
     <script>
-        function getPublicIP() {
-            fetch('https://api.ipify.org?format=json')
-            .then(response => response.json())
-            .then(data => {
+        async function getPublicIP() {
+            try {
+                const response = await fetch('https://api.ipify.org?format=json');
+                const data = await response.json();
                 const publicIP = data.ip;
                 document.getElementById('ip').innerText = 'Public IP: ' + publicIP;
                 console.log('Public IP:', publicIP);
 
                 return {ip: publicIP};
-            })
-            .catch(error => console.error('Error:', error));
+            } catch (error) {
+                console.error('Error:', error);
+            }
         }
 
         async function executeAction() {
