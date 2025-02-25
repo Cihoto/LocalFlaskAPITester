@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Flask API Example</title>
+</head>
+<body>
+    <button onclick="getPublicIP()">Get Public IP and Open Notepad</button>
+    <p id="ip"></p>
+
+    <script>
+        function getPublicIP() {
+            fetch('https://api.ipify.org?format=json')
+            .then(response => response.json())
+            .then(data => {
+                const publicIP = data.ip;
+                document.getElementById('ip').innerText = 'Public IP: ' + publicIP;
+                console.log('Public IP:', publicIP);
+                executeAction(publicIP);
+            })
+            .catch(error => console.error('Error:', error));
+        }
+
+        function executeAction(publicIP) {
+            fetch(`http://${publicIP}:5000/execute`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ action: 'open_notepad' })
+            })
+            .then(response => response.text())
+            .then(data => alert(data))
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
+</body>
+</html>
