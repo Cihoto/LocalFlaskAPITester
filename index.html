@@ -26,7 +26,7 @@
         async function executeAction() {
             const myIp = await getPublicIP();
             const {ip} = myIp;
-            fetch(`http://${publicIP}:5000/execute`, {
+            fetch(`https://${publicIP}:5000/execute`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -42,7 +42,7 @@
 
             const myIp = await getPublicIP();
             const {ip} = myIp;
-            fetch(`http://${ip}:5000/`)
+            fetch(`https://${ip}:5000/`)
             .then(response => response.json())
             .then(data => console.log(data))
             .catch(error => console.error('Error:', error));
