@@ -4,7 +4,8 @@
     <title>Flask API Example</title>
 </head>
 <body>
-    <button onclick="getPublicIP()">Get Public IP and Open Notepad</button>
+    <button onclick="executeAction()">execute</button>
+    <button onclick="fetchRoot()">root</button>
     <p id="ip"></p>
 
     <script>
@@ -15,12 +16,14 @@
                 const publicIP = data.ip;
                 document.getElementById('ip').innerText = 'Public IP: ' + publicIP;
                 console.log('Public IP:', publicIP);
-                executeAction(publicIP);
+
+                return {ip: publicIP};
             })
             .catch(error => console.error('Error:', error));
         }
 
-        function executeAction(publicIP) {
+        async function executeAction() {
+            const {ip} = getPublicIP();
             fetch(`http://${publicIP}:5000/execute`, {
                 method: 'POST',
                 headers: {
@@ -30,6 +33,15 @@
             })
             .then(response => response.text())
             .then(data => alert(data))
+            .catch(error => console.error('Error:', error));
+        }
+
+        async function fetchRoot() {
+
+            const {ip} = await getPublicIP();
+            fetch(`http://${ip}:5000/`)
+            .then(response => response.json())
+            .then(data => console.log(data))
             .catch(error => console.error('Error:', error));
         }
     </script>
