@@ -23,7 +23,8 @@
         }
 
         async function executeAction() {
-            const {ip} = getPublicIP();
+            const myIp = await getPublicIP();
+            const {ip} = myIp;
             fetch(`http://${publicIP}:5000/execute`, {
                 method: 'POST',
                 headers: {
@@ -38,7 +39,8 @@
 
         async function fetchRoot() {
 
-            const {ip} = await getPublicIP();
+            const myIp = await getPublicIP();
+            const {ip} = myIp;
             fetch(`http://${ip}:5000/`)
             .then(response => response.json())
             .then(data => console.log(data))
