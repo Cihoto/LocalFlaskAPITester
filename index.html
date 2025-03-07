@@ -63,15 +63,14 @@
             const myIp = await getPublicIP();
             const {ip} = myIp;
 
-            const url = `http://${ip}:5000/singleRead`;
+            const url = `https://rfidhoster.ddns.net:5000/singleRead`;
             // fetch(`https://${ip}:5000/singleRead/25.56.167.241`, {
             // fetch(`https://${ip}:5000/singleRead`, {
             fetch(url, {
-                method: 'POST',
+                method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ action: 'open_notepad' })
+                }
             })
             .then(response => response.text())
             .then(data => alert(data))
