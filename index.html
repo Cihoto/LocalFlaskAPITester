@@ -8,6 +8,7 @@
     <button onclick="fetchRoot()">root</button>
     <p id="ip"></p>
     <p id="local-ip"></p>
+    <p id="tag-info"> <span id="tagId"></span></p>
 
     <script>
         getPublicIP().catch(error => console.error('Error:', error));
@@ -72,7 +73,18 @@
                     'Content-Type': 'application/json'
                 }
             })
-            .then(response => response.text())
+            .then(response => {
+                // response example 
+                // {
+                //     'antenna': tag.antenna_num,
+                //     'epc': tag.epc.hex(),
+                //     'rssi': tag.rssi
+                // }
+
+                document.getElementById('tagId').innerText = response.epc;
+                return response.json();
+
+            })
             .then(data => alert(data))
             .catch(error => console.error('Error:', error));
         }
