@@ -2,6 +2,32 @@
 <html>
 <head>
     <title>Flask API Example</title>
+
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            color: black;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #ddd;
+        }
+    </style>
 </head>
 <body>
     <button onclick="executeAction()">execute</button>
@@ -9,6 +35,20 @@
     <p id="ip"></p>
     <p id="local-ip"></p>
     <p id="tag-info"> <span id="tagId"></span></p>
+    
+
+    <table id="tagTable">
+        <thead>
+            <tr>
+                <th>Antenna</th>
+                <th>EPC</th>
+                <th>RSSI</th>
+            </tr>
+        </thead>
+        <tbody id="tagTableBody">
+        </tbody>
+    </table>
+
 
     <script>
         getPublicIP().catch(error => console.error('Error:', error));
@@ -82,8 +122,29 @@
                 //     'epc': tag.epc.hex(),
                 //     'rssi': tag.rssi
                 // }
-
+                console.log(data);
                 document.getElementById('tagId').innerText = data.epc;
+
+                const tagTableBody = document.getElementById('tagTableBody');
+                tagTableBody.innerHTML = ''; // Clear existing rows
+
+                data.forEach(tag => {
+                    const row = document.createElement('tr');
+
+                    const antennaCell = document.createElement('td');
+                    antennaCell.innerText = tag.antenna;
+                    row.appendChild(antennaCell);
+
+                    const epcCell = document.createElement('td');
+                    epcCell.innerText = tag.epc;
+                    row.appendChild(epcCell);
+
+                    const rssiCell = document.createElement('td');
+                    rssiCell.innerText = tag.rssi;
+                    row.appendChild(rssiCell);
+
+                    tagTableBody.appendChild(row);
+                });
             })
             .catch(error => console.error('Error:', error));
         }
