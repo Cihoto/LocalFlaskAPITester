@@ -73,7 +73,9 @@
                     'Content-Type': 'application/json'
                 }
             })
-            .then(response => {
+            .then(response => response.json())
+            .then(data => {
+
                 // response example 
                 // {
                 //     'antenna': tag.antenna_num,
@@ -81,11 +83,8 @@
                 //     'rssi': tag.rssi
                 // }
 
-                document.getElementById('tagId').innerText = response.epc;
-                return response.json();
-
+                document.getElementById('tagId').innerText = data.epc;
             })
-            .then(data => alert(data))
             .catch(error => console.error('Error:', error));
         }
 
